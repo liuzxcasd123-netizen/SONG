@@ -134,12 +134,14 @@
                             <div class="p-3 bg-indigo-50 rounded-lg">
                                 <p class="font-semibold text-indigo-800" data-lang-zh="第一組申購月份：" data-lang-en="Group 1 Requisition Months:">第一組申購月份：</p>
                                 <p class="text-xl font-extrabold text-indigo-600 mt-1">1月 / 4月 / 7月 / 10月</p>
-                                <p class="text-sm text-indigo-700 mt-1" data-lang-zh="WH17X/WH27X/WH283~WH287/WH31X/WH35X/WH365~WH369/WHA11/WHA12/ WHA16~WHA20" data-lang-en="Applicable Vessels: WH17X, WH27X, WH31X, WHA11/WHA12...">代表船隻：WH17X, WH27X, WH31X, WHA11/WHA12...</p>
+                                <!-- 加入 break-words 確保長船名能換行 -->
+                                <p class="text-sm text-indigo-700 mt-1 break-words" data-lang-zh="代表船隻：WH17X, WH27X, WH31X, WHA11/WHA12..." data-lang-en="Applicable Vessels: WH17X, WH27X, WH31X, WHA11/WHA12/ WHA16~WHA20">代表船隻：WH17X /WH27X/WH283~WH287/WH30X/WH31X/ WH351~WH359/WH365~WH369/WHA11/WHA12/ WHA16~WHA20</p>
                             </div>
                             <div class="p-3 bg-green-50 rounded-lg">
                                 <p class="font-semibold text-green-800" data-lang-zh="第二組申購月份：" data-lang-en="Group 2 Requisition Months:">第二組申購月份：</p>
                                 <p class="text-xl font-extrabold text-green-600 mt-1">2月 / 5月 / 8月 / 11月</p>
-                                 <p class="text-sm text-green-700 mt-1" data-lang-zh="代表船隻：WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/WH721~WH723/WHA03~WHA10/WHA13/WHA15" data-lang-en="Applicable Vessels: WH10X, WH32X, WH50X, WHA03~WHA10...">代表船隻：WH10X, WH32X, WH50X, WHA03~WHA10...</p>
+                                <!-- 加入 break-words 確保長船名能換行 -->
+                                <p class="text-sm text-green-700 mt-1 break-words" data-lang-zh="代表船隻：WH10X, WH32X, WH50X, WHA03~WHA10..." data-lang-en="Applicable Vessels: WH10X, WH32X, WH50X, WHA03~WHA10/WHA13/WHA15/WH72X">代表船隻：WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/ WHA03~WHA10/WHA13/WHA15/WH72X</p>
                             </div>
                         </div>
                     </div>
@@ -348,7 +350,7 @@
             
             document.querySelectorAll('.accordion-content.active').forEach(item => {
                 item.classList.remove('active');
-                const iconId = `icon${item.id.replace('content', '')}`;
+                const iconId = `icon${item.id.replace('content', '')}`;\
                 const icon = document.getElementById(iconId);
                 if (icon) {
                     icon.textContent = '+';
@@ -359,7 +361,7 @@
         // --- Accordion 折疊邏輯 (Accordion Logic) ---
         function toggleAccordion(contentId) {
             const content = document.getElementById(contentId);
-            const iconId = `icon${contentId.replace('content', '')}`;
+            const iconId = `icon${contentId.replace('content', '')}`;\
             const icon = document.getElementById(iconId);
             
             if (content.classList.contains('active')) {

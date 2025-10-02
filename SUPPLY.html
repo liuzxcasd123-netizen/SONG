@@ -11,7 +11,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
         }
-        /* 修正 Tab 按鈕樣式以允許換行 (從上個步驟繼承) */
+        /* 修正 Tab 按鈕樣式以允許換行 */
         .tab-button {
             white-space: normal;
             min-width: 30%; 
@@ -134,14 +134,14 @@
                             <div class="p-3 bg-indigo-50 rounded-lg">
                                 <p class="font-semibold text-indigo-800" data-lang-zh="第一組申購月份：" data-lang-en="Group 1 Requisition Months:">第一組申購月份：</p>
                                 <p class="text-xl font-extrabold text-indigo-600 mt-1">1月 / 4月 / 7月 / 10月</p>
-                                <!-- 加入 break-words 確保長船名能換行 -->
-                                <p class="text-sm text-indigo-700 mt-1 break-words" data-lang-zh="代表船隻：WH17X, WH27X, WH31X, WHA11/WHA12..." data-lang-en="Applicable Vessels: WH17X, WH27X, WH31X, WHA11/WHA12/ WHA16~WHA20">代表船隻：WH17X /WH27X/WH283~WH287/WH30X/WH31X/ WH351~WH359/WH365~WH369/WHA11/WHA12/ WHA16~WHA20</p>
+                                <!-- 已修正：加入 break-words 確保長船名能換行 -->
+                                <p class="text-sm text-indigo-700 mt-1 break-words" data-lang-zh="代表船隻：WH17X /WH27X/WH283~WH287/WH30X/WH31X/ WH351~WH359/WH365~WH369/WHA11/WHA12/ WHA16~WHA20" data-lang-en="Applicable Vessels: WH17X, WH27X, WH31X, WHA11/WHA12/ WHA16~WHA20">代表船隻：WH17X /WH27X/WH283~WH287/WH30X/WH31X/ WH351~WH359/WH365~WH369/WHA11/WHA12/ WHA16~WHA20</p>
                             </div>
                             <div class="p-3 bg-green-50 rounded-lg">
                                 <p class="font-semibold text-green-800" data-lang-zh="第二組申購月份：" data-lang-en="Group 2 Requisition Months:">第二組申購月份：</p>
                                 <p class="text-xl font-extrabold text-green-600 mt-1">2月 / 5月 / 8月 / 11月</p>
-                                <!-- 加入 break-words 確保長船名能換行 -->
-                                <p class="text-sm text-green-700 mt-1 break-words" data-lang-zh="代表船隻：WH10X, WH32X, WH50X, WHA03~WHA10..." data-lang-en="Applicable Vessels: WH10X, WH32X, WH50X, WHA03~WHA10/WHA13/WHA15/WH72X">代表船隻：WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/ WHA03~WHA10/WHA13/WHA15/WH72X</p>
+                                <!-- 已修正：加入 break-words 確保長船名能換行 -->
+                                <p class="text-sm text-green-700 mt-1 break-words" data-lang-zh="代表船隻：WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/ WHA03~WHA10/WHA13/WHA15/WH72X" data-lang-en="Applicable Vessels: WH10X, WH32X, WH50X, WHA03~WHA10/WHA13/WHA15/WH72X">代表船隻：WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/ WHA03~WHA10/WHA13/WHA15/WH72X</p>
                             </div>
                         </div>
                     </div>
@@ -296,8 +296,6 @@
         // --- 語言切換邏輯 (Language Switching Logic) ---
         let currentLang = 'zh-TW';
         
-        // 模擬切換頁面（實際環境中需要有另一個英文版 HTML 檔案）
-        // 在單頁應用中，我們透過 data-lang 屬性來切換顯示的文字
         function setLanguage(lang) {
             currentLang = lang;
             
@@ -322,20 +320,13 @@
                 }
             });
             
-            // 更新 HTML 標籤的 lang 屬性 (用於無障礙和 SEO)
             document.documentElement.lang = lang;
-            
-            // 重新載入 Tab 內容以確保換行正確 (如果排版有改變)
-            // 這裡可以選擇不重新載入，但保持在當前 Tab
         }
 
         // --- 回首頁邏輯 (Go Home Logic) ---
         function goHome() {
-            // 在您的 Vercel 部署環境中，這將導致頁面重新載入，模擬導回主頁
             location.reload(); 
-            // 實際在多頁網站中，這裡會是 window.location.href = '/index.html'
         }
-
 
         // --- Tab 切換邏輯 (Tab Switching Logic) ---
         function openTab(evt, tabName) {
@@ -348,9 +339,10 @@
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.classList.add("active");
             
+            // 修正：Accordion 邏輯使用字串拼接計算 ID
             document.querySelectorAll('.accordion-content.active').forEach(item => {
                 item.classList.remove('active');
-                const iconId = `icon${item.id.replace('content', '')}`;\
+                const iconId = 'icon' + item.id.replace('content', '');
                 const icon = document.getElementById(iconId);
                 if (icon) {
                     icon.textContent = '+';
@@ -361,7 +353,8 @@
         // --- Accordion 折疊邏輯 (Accordion Logic) ---
         function toggleAccordion(contentId) {
             const content = document.getElementById(contentId);
-            const iconId = `icon${contentId.replace('content', '')}`;\
+            // 修正：Accordion 邏輯使用字串拼接計算 ID
+            const iconId = 'icon' + contentId.replace('content', '');
             const icon = document.getElementById(iconId);
             
             if (content.classList.contains('active')) {

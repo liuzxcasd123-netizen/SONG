@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甲板物料課綜合規範與指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        /* 修正 Tab 按鈕樣式以允許換行 (從上個步驟繼承) */
+        .tab-button {
+            white-space: normal;
+            min-width: 30%; 
+        }
+        .tab-button.active {
+            border-bottom: 4px solid #3b82f6; /* Blue-500 */
+            color: #1e40af; /* Blue-800 */
+            font-weight: 700;
+        }
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            padding: 0 1rem;
+        }
+        .accordion-content.active {
+            max-height: 800px; /* Sufficiently large value */
+            padding-top: 0.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .alert-box {
+            background-color: #fef3c7; /* Amber-100 */
+            border-left: 4px solid #fbbf24; /* Amber-400 */
+            color: #a16207; /* Amber-700 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-2xl shadow-blue-300 overflow-hidden">
+        
+        <!-- Action Bar: 回首頁 & 語言切換 -->
+        <div class="p-3 bg-gray-100 flex justify-between items-center border-b border-gray-200">
+            <!-- 回首頁按鈕 -->
+            <button onclick="goHome()" class="flex items-center space-x-1 px-3 py-1 bg-gray-300 text-gray-800 font-semibold text-sm rounded-full hover:bg-gray-400 transition duration-150 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                <span>回首頁</span>
+            </button>
+            
+            <!-- 語言切換按鈕組 -->
+            <div class="flex space-x-1">
+                <button id="lang-zh" onclick="setLanguage('zh-TW')" class="px-3 py-1 bg-blue-500 text-white font-semibold text-sm rounded-full shadow-md hover:bg-blue-600 transition duration-150">
+                    中文
+                </button>
+                <button id="lang-en" onclick="setLanguage('en')" class="px-3 py-1 bg-gray-300 text-gray-800 font-semibold text-sm rounded-full shadow-md hover:bg-gray-400 transition duration-150">
+                    EN
+                </button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="bg-blue-800 p-6 text-white text-center">
+            <h1 class="text-3xl font-extrabold mb-1" data-lang-zh="甲板物料課規範與實務指南" data-lang-en="Deck Store Supply Dept. Procedures & Practice Guide">甲板物料課規範與實務指南</h1>
+            <p class="text-blue-200 text-sm" data-lang-zh="新進船員快速熟悉訓練手冊 (整合版)" data-lang-en="New Crew Member Familiarization Handbook (Integrated)">新進船員快速熟悉訓練手冊 (整合版)</p>
+        </header>
+
+        <!-- Tab Buttons -->
+        <div class="flex border-b border-gray-200 bg-gray-50 flex-wrap justify-center sm:flex-nowrap">
+            <button id="tab-btn-1" class="tab-button active p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab1')">
+                <span data-lang-zh="常規作業與時程" data-lang-en="Routine Operations & Schedule">常規作業與時程</span>
+            </button>
+            <button id="tab-btn-2" class="tab-button p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab2')">
+                <span data-lang-zh="安全設備與維護" data-lang-en="Safety Equipment & Maintenance">安全設備與維護</span>
+            </button>
+            <button id="tab-btn-3" class="tab-button p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab3')">
+                <span data-lang-zh="文書與特殊規範" data-lang-en="Documentation & Special Regulations">文書與特殊規範</span>
+            </button>
+        </div>
+
+        <!-- Tab Content Container -->
+        <main class="p-4 sm:p-6">
+            
+            <!-- Tab 1: 常規作業與時程 -->
+            <div id="tab1" class="tab-content">
+                <h2 class="text-2xl font-bold mb-4 text-blue-700" data-lang-zh="物料申購與庫存報表作業" data-lang-en="Store Requisition & Inventory Reporting Procedures">物料申購與庫存報表作業</h2>
+                
+                <div class="alert-box">
+                    <p data-lang-zh="🚨 重要提醒：所有的物料申購作業，除了緊急或臨時性申請外，皆須全面使用 FMS 系統進行。" data-lang-en="🚨 IMPORTANT REMINDER: All store requisitions, except for urgent or temporary applications, must be processed entirely through the FMS system.">🚨 **重要提醒：** 所有的物料申購作業，除了緊急或臨時性申請外，皆須**全面使用 FMS 系統**進行。</p>
+                </div>
+
+                <!-- Accordion 1.1: 庫存更新時程 (每季) -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-t-lg" onclick="toggleAccordion('content1_1')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="1.1 季度庫存更新時程 (每月 5 日前)" data-lang-en="1.1 Quarterly Inventory Update Schedule (By 5th of Month)">1.1 季度庫存更新時程 (每月 5 日前)</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon1_1">+</span>
+                    </div>
+                    <div class="accordion-content bg-white rounded-b-lg" id="content1_1">
+                        <p class="font-bold text-base mb-2 text-gray-700" data-lang-zh="以下物料，請於 2月/5月/8月/11月 的 5日以前 在 FMS 中更新：" data-lang-en="The following stores must be updated in FMS by the 5th day of Feb / May / Aug / Nov:">以下物料，請於 **2月/5月/8月/11月** 的 **5日以前** 在 FMS 中更新：</p>
+                        <ul class="list-disc list-inside space-y-1 pl-4 text-gray-700">
+                            <li data-lang-zh="纜繩 (Hawsers)：需更新數量、ABC 級狀態維護、庫位維護。" data-lang-en="Hawsers (纜繩): Update Quantity, ABC Status, and Location Maintenance.">**纜繩 (Hawsers)**：需更新數量、ABC 級狀態維護、庫位維護。</li>
+                            <li data-lang-zh="鎖具 (Lashing Gears)：需更新數量、ABC 級狀態維護、庫位維護。" data-lang-en="Lashing Gears (鎖具): Update Quantity, ABC Status, and Location Maintenance.">**鎖具 (Lashing Gears)**：需更新數量、ABC 級狀態維護、庫位維護。</li>
+                            <li data-lang-zh="WIRE 鋼纜：需更新數量與庫位維護。" data-lang-en="Ship's Wire (鋼纜): Update Quantity and Location Maintenance.">**WIRE 鋼纜**：需更新數量與庫位維護。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accordion 1.2: 季度申購月份 (Running Store) -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100" onclick="toggleAccordion('content1_2')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="1.2 季度申購月份 (RUNNING STORE)" data-lang-en="1.2 Quarterly Requisition Months (RUNNING STORE)">1.2 季度申購月份 (RUNNING STORE)</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon1_2">+</span>
+                    </div>
+                    <div class="accordion-content bg-white" id="content1_2">
+                         <p class="font-bold text-base mb-2 text-gray-700" data-lang-zh="請在以下月份的 5日以前 提出季度物料申請：" data-lang-en="Please submit quarterly store requisitions by the 5th day of the following months:">請在以下月份的 **5日以前** 提出季度物料申請：</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="p-3 bg-indigo-50 rounded-lg">
+                                <p class="font-semibold text-indigo-800" data-lang-zh="第一組申購月份：" data-lang-en="Group 1 Requisition Months:">第一組申購月份：</p>
+                                <p class="text-xl font-extrabold text-indigo-600 mt-1">1月 / 4月 / 7月 / 10月</p>
+                                <p class="text-sm text-indigo-700 mt-1" data-lang-zh="WH17X/WH27X/WH283~WH287/WH31X/WH35X/WH365~WH369/WHA11/WHA12/ WHA16~WHA20" data-lang-en="Applicable Vessels: WH17X, WH27X, WH31X, WHA11/WHA12...">代表船隻：WH17X, WH27X, WH31X, WHA11/WHA12...</p>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg">
+                                <p class="font-semibold text-green-800" data-lang-zh="第二組申購月份：" data-lang-en="Group 2 Requisition Months:">第二組申購月份：</p>
+                                <p class="text-xl font-extrabold text-green-600 mt-1">2月 / 5月 / 8月 / 11月</p>
+                                 <p class="text-sm text-green-700 mt-1" data-lang-zh="代表船隻：WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/WH721~WH723/WHA03~WHA10/WHA13/WHA15" data-lang-en="Applicable Vessels: WH10X, WH32X, WH50X, WHA03~WHA10...">代表船隻：WH10X, WH32X, WH50X, WHA03~WHA10...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion 1.3: 半年報表與非消耗品 -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-b-lg" onclick="toggleAccordion('content1_3')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="1.3 半年報表與非消耗品申請規定" data-lang-en="1.3 Semi-Annual Reports & Non-Consumable Requisition">1.3 半年報表與非消耗品申請規定</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon1_3">+</span>
+                    </div>
+                    <div class="accordion-content bg-white rounded-b-lg" id="content1_3">
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                            <li data-lang-zh="TWISTLOCK 最大用量調查表：請於 1月/7月 的 10日以前 將電子檔寄給 PIC。" data-lang-en="TWISTLOCK Max Usage Survey: Send the electronic file to the PIC by the 10th day of Jan / Jul.">**TWISTLOCK 最大用量調查表**：請於 **1月/7月** 的 **10日以前** 將電子檔寄給 PIC。</li>
+                            <li data-lang-zh="非消耗性物品：如削鉛筆機、計算機等，不易損壞物品，申請時請務必註明申請原因供岸端審核。" data-lang-en="Non-Consumable Items: (e.g., sharpeners, calculators). For durable items, state the reason for application for shore review.">**非消耗性物品**：如削鉛筆機、計算機等，不易損壞物品，申請時請**務必註明申請原因**供岸端審核。</li>
+                             <li data-lang-zh="燈具/水龍頭：申請時需確實填寫規格。" data-lang-en="Lights/Faucets: Accurately state the specification during application.">**燈具/水龍頭**：申請時需**確實填寫規格**。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: 安全設備與維護 -->
+            <div id="tab2" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-4 text-blue-700" data-lang-zh="安全設備重點檢查與淘汰標準" data-lang-en="Key Safety Equipment Inspection & Retirement Criteria">安全設備重點檢查與淘汰標準</h2>
+                
+                <div class="alert-box">
+                    <p data-lang-zh="🚨 生命安全設備：維護與申購時程嚴格，需優先處理，確保符合 SOLAS 及 MSC 規範！" data-lang-en="🚨 Life-Saving Equipment: Strict maintenance/requisition schedules. Must be prioritized to comply with SOLAS & MSC regulations!">🚨 **生命安全設備**：維護與申購時程嚴格，需優先處理，確保符合 **SOLAS** 及 **MSC** 規範！</p>
+                </div>
+
+                <!-- Accordion 2.1: 呼吸器與消防設備 -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-t-lg" onclick="toggleAccordion('content2_1')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="2.1 SCBA/EEBD & 滅火器檢查" data-lang-en="2.1 SCBA/EEBD & Fire Extinguisher Checks">2.1 SCBA/EEBD & 滅火器檢查</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon2_1">+</span>
+                    </div>
+                    <div class="accordion-content bg-white rounded-b-lg" id="content2_1">
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li data-lang-zh="SCBA/EEBD：三副需每週定期確認有無漏氣、面罩破損或壓力不足。" data-lang-en="SCBA/EEBD: Third Officer must conduct weekly checks for leaks, mask damage, or low pressure.">**SCBA/EEBD**：**三副**需**每週**定期確認有無漏氣、面罩破損或壓力不足。</li>
+                            <li data-lang-zh="SCBA/EEBD 更新：如需更新，請拍照後附上規格型號向物料課即時提出申請。" data-lang-en="SCBA/EEBD Replacement: If replacement is required, attach photos and specifications for immediate application to the Supply Dept.">**SCBA/EEBD 更新**：如需更新，請**拍照後附上規格型號**向物料課即時提出申請。</li>
+                            <li data-lang-zh="手提式滅火器：檢查過度鏽蝕/洩漏/軟管老化等不適狀況，如損壞嚴重，請立即由 FMS 提出換新申請，無須等待年檢時才更換。" data-lang-en="Portable Extinguishers: If severely damaged (corrosion/leakage/hose cracking), immediately apply for replacement via FMS; do not wait for the annual survey.">**手提式滅火器**：檢查過度鏽蝕/洩漏/軟管老化等不適狀況，如損壞嚴重，請**立即**由 FMS 提出換新申請，**無須等待年檢時才更換**。</li>
+                            <li data-lang-zh="SOPEP 專用滅火器：SOPEP 專用 9L 泡沫滅火器也請確實檢驗，不要遺漏。" data-lang-en="SOPEP Extinguishers: Ensure 9L Foam extinguishers for SOPEP are inspected as well.">**SOPEP 專用滅火器**：SOPEP 專用 9L 泡沫滅火器也請確實檢驗，不要遺漏。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accordion 2.2: 浸水衣與纜繩尾淘汰標準 -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100" onclick="toggleAccordion('content2_2')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="2.2 浸水衣 / 纜繩尾 檢查與淘汰" data-lang-en="2.2 Immersion Suits & Mooring Tail Retirement">2.2 浸水衣 / 纜繩尾 檢查與淘汰</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon2_2">+</span>
+                    </div>
+                    <div class="accordion-content bg-white" id="content2_2">
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li data-lang-zh="浸水衣 (Immersion Suit)：每月自檢，檢查拉鍊操作並適時潤滑。" data-lang-en="Immersion Suits: Conduct monthly self-inspection for zipper operation and lubricate as necessary.">**浸水衣 (Immersion Suit)**：**每月自檢**，檢查拉鍊操作並適時潤滑。</li>
+                            <li data-lang-zh="浸水衣淘汰：針對超過 13年 的浸水衣，請於到期年檢前申請直接採購換新。" data-lang-en="Suit Retirement: Suits over 13 years of age must be requisitioned for replacement prior to the annual survey.">**浸水衣淘汰**：針對超過 **13年** 的浸水衣，請於到期年檢前申請直接採購換新。</li>
+                            <li data-lang-zh="纜繩尾 (Mooring Tail) 壽命：公司建議服務壽命為 18個月 更換。" data-lang-en="Mooring Tail Service Life: Company recommends replacement every 18 months of service life.">**纜繩尾 (Mooring Tail) 壽命**：公司建議服務壽命為 **18個月** 更換。</li>
+                            <li data-lang-zh="纜繩尾淘汰標準：目標淘汰標準為殘餘強度達到船舶設計破斷力的 75%。" data-lang-en="Tail Retirement Criteria: Target retirement when residual strength reaches 75% of the vessel's design MBL.">**纜繩尾淘汰標準**：目標淘汰標準為殘餘強度達到船舶設計破斷力的 **75%**。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accordion 2.3: 船用纜繩規定 -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-b-lg" onclick="toggleAccordion('content2_3')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="2.3 纜繩存放與規格規定" data-lang-en="2.3 Mooring Rope Regulations">2.3 纜繩存放與規格規定</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon2_3">+</span>
+                    </div>
+                    <div class="accordion-content bg-white rounded-b-lg" id="content2_3">
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li data-lang-zh="存放原則：應存放在乾淨、乾燥的地方，遠離直射陽光和高溫，並架高遠離地面。" data-lang-en="Storage Principle: Must be kept in a clean, dry place, away from direct sunlight and high temperature, and stored on racks off the deck.">**存放原則**：應存放在乾淨、乾燥的地方，**遠離直射陽光和高溫**，並架高遠離地面。</li>
+                            <li data-lang-zh="嚴禁事項：切勿將纜繩存放在混凝土或骯髒的地面上，絕不能與酸性或鹼性物質放在一起。" data-lang-en="Prohibited Storage: Never store ropes on concrete or dirty ground, and absolutely not with acid or alkaline substances.">**嚴禁事項**：切勿將纜繩存放在混凝土或骯髒的地面上，**絕不**能與酸性或鹼性物質放在一起。</li>
+                            <li data-lang-zh="纜繩尾規格：公司要求纜繩尾長度統一為 11 米，且破斷力 (TDBF) 需達船舶設計破斷力 (MBL) 的 125-130%。" data-lang-en="Tail Specification: Tails must be uniformly 11 meters in length, with TDBF (Tail Design Breaking Force) of 125-130% of the ship’s design MBL.">**纜繩尾規格**：公司要求纜繩尾長度**統一為 11 米**，且破斷力 (TDBF) 需達船舶設計破斷力 (MBL) 的 **125-130%**。</li>
+                            <li data-lang-zh="救生艇吊索 (Boat Fall wire)：必須是 不可旋轉 (non-rotated) 型，常見規格如 18*7、19*7、4*39 等。" data-lang-en="Boat Fall Wire: Must be non-rotated type (e.g., 18*7, 19*7, 4*39).">**救生艇吊索 (Boat Fall wire)**：必須是 **不可旋轉 (non-rotated)** 型，常見規格如 18*7、19*7、4*39 等。</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab 3: 文書與特殊規範 -->
+            <div id="tab3" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-4 text-blue-700" data-lang-zh="文書作業、系統與特殊物料管理" data-lang-en="Documentation, Systems, and Special Stores Management">文書作業、系統與特殊物料管理</h2>
+                
+                <!-- Accordion 3.1: 圖書與系統 -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-t-lg" onclick="toggleAccordion('content3_1')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="3.1 海圖、圖書與系統規範" data-lang-en="3.1 Charts, Publications & Systems">3.1 海圖、圖書與系統規範</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon3_1">+</span>
+                    </div>
+                    <div class="accordion-content bg-white rounded-b-lg" id="content3_1">
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li data-lang-zh="ECDIS 電子海圖：請定期更新機台上的到期日期，並於到期前一個月提出申請。" data-lang-en="ECDIS (Electronic Charts): Regularly update the expiration date on the machine and apply for renewal one month prior to expiry.">**ECDIS 電子海圖**：請定期更新機台上的到期日期，並於**到期前一個月**提出申請。</li>
+                            <li data-lang-zh="電子法規書：若船隻配有 『SeaReader』 軟體，申請軟體內電子書請使用 FMS 料號申請。" data-lang-en="E-Publications: For vessels with 'SeaReader' software, use the FMS store code for internal e-book applications.">**電子法規書**：若船隻配有 **『SeaReader』** 軟體，申請軟體內電子書請使用 FMS 料號申請。</li>
+                            <li data-lang-zh="LMP 繫泊管理計畫書：應以實體或電子檔方式提供，並儲放在所有使用者都能輕易取得的位置。" data-lang-en="LMP (Line Management Plan): Must be available in hard or electronic copy and stored in a location easily accessible to all users.">**LMP 繫泊管理計畫書**：應以**實體或電子檔**方式提供，並儲放在**所有使用者都能輕易取得**的位置。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accordion 3.2: 鎖具與電器規範 -->
+                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100" onclick="toggleAccordion('content3_2')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="3.2 鎖具與船上電器管理" data-lang-en="3.2 Lashing Gear & Electrical Appliances">3.2 鎖具與船上電器管理</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon3_2">+</span>
+                    </div>
+                    <div class="accordion-content bg-white" id="content3_2">
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li data-lang-zh="TWISTLOCK 卡住：若鎖具發生卡住或故障，請立即通知物料課 PIC，並將紀錄或聲明給予港口當局。" data-lang-en="Stuck TWISTLOCK: If a lashing gear is jammed or failed, immediately notify the Supply Dept. PIC, and record or state this to the Port Authority.">**TWISTLOCK 卡住**：若鎖具發生卡住或故障，請**立即**通知物料課 PIC，並將紀錄或聲明給予港口當局。</li>
+                            <li data-lang-zh="延長線：一律由公司採購，不得自行攜帶。蓋世特延長線每房間上限一條，6孔延長線僅供公共區域使用。" data-lang-en="Extension Cords: Must be company-supplied; personal cords are strictly prohibited. 'Gesite' cords are limited to one per cabin; 6-hole cords for common areas only.">**延長線**：一律由公司採購，**不得自行攜帶**。**蓋世特延長線**每房間上限一條，**6孔延長線**僅供公共區域使用。</li>
+                            <li data-lang-zh="船上生活家電：由大副管理與申請，但由甲板物料課安排供應、卸修等作業。相關問題請直接詢問 PIC。" data-lang-en="Onboard Appliances: Managed/requested by the Chief Officer, but the Supply Dept. arranges supply/repair. Directly consult the PIC for related issues.">**船上生活家電**：由大副管理與申請，但由甲板物料課安排供應、卸修等作業。相關問題請**直接詢問 PIC**。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accordion 3.3: 特殊情況處理 -->
+                 <div class="mb-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-b-lg" onclick="toggleAccordion('content3_3')">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <span data-lang-zh="3.3 特殊情況：隨身攝影機與戰區" data-lang-en="3.3 Special Cases & Contingencies">3.3 特殊情況：隨身攝影機與戰區</span>
+                        </h3>
+                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon3_3">+</span>
+                    </div>
+                    <div class="accordion-content bg-white rounded-b-lg" id="content3_3">
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li data-lang-zh="隨身攝影機：請參考 S-157 通告。若有任何人拒絕被錄影，必須立即停止錄影；若有人要求刪除紀錄，必須刪除。" data-lang-en="Body Cameras: Refer to Circular S-157. If anyone refuses recording, stop immediately. If deletion is requested, it must be deleted.">**隨身攝影機**：請參考 S-157 通告。若有任何人拒絕被錄影，**必須立即停止錄影**；若有人要求刪除紀錄，**必須刪除**。</li>
+                            <li data-lang-zh="反海盜措施：若進入 JWC 定義的戰區（如中東/紅海），仍須實施 BMP5 標準，建議申請刀片式反海盜鐵絲網。" data-lang-en="Anti-Piracy Measures: When entering JWC defined war-risk areas (e.g., Middle East/Red Sea), implement BMP5 standards. Application for razor wire and gear is recommended.">**反海盜措施**：若進入 JWC 定義的戰區（如中東/紅海），仍須實施 BMP5 標準，建議申請**刀片式反海盜鐵絲網**。</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm">
+            <p data-lang-zh="本指南整合自 WHL LMP V-01, C-16 甲板物料課相關規範及船員熟悉訓練文件 (2025/07更新)。" data-lang-en="This guide integrates content from WHL LMP V-01, C-16 Deck Store Supply Dept. Regulations, and Crew Familiarization Documents (Rev. July 2025).">本指南整合自 WHL LMP V-01, C-16 甲板物料課相關規範及船員熟悉訓練文件 (2025/07更新)。</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- 語言切換邏輯 (Language Switching Logic) ---
+        let currentLang = 'zh-TW';
+        
+        // 模擬切換頁面（實際環境中需要有另一個英文版 HTML 檔案）
+        // 在單頁應用中，我們透過 data-lang 屬性來切換顯示的文字
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // 更新按鈕樣式
+            document.getElementById('lang-zh').classList.remove('bg-blue-500', 'text-white');
+            document.getElementById('lang-zh').classList.add('bg-gray-300', 'text-gray-800');
+            document.getElementById('lang-en').classList.remove('bg-blue-500', 'text-white');
+            document.getElementById('lang-en').classList.add('bg-gray-300', 'text-gray-800');
+
+            document.getElementById(`lang-${lang === 'zh-TW' ? 'zh' : 'en'}`).classList.add('bg-blue-500', 'text-white');
+            document.getElementById(`lang-${lang === 'zh-TW' ? 'zh' : 'en'}`).classList.remove('bg-gray-300', 'text-gray-800');
+
+            // 遍歷所有帶有 data-lang 屬性的元素並更新文字
+            document.querySelectorAll('[data-lang-zh], [data-lang-en]').forEach(el => {
+                const zhText = el.getAttribute('data-lang-zh');
+                const enText = el.getAttribute('data-lang-en');
+                
+                if (lang === 'zh-TW' && zhText) {
+                    el.textContent = zhText;
+                } else if (lang === 'en' && enText) {
+                    el.textContent = enText;
+                }
+            });
+            
+            // 更新 HTML 標籤的 lang 屬性 (用於無障礙和 SEO)
+            document.documentElement.lang = lang;
+            
+            // 重新載入 Tab 內容以確保換行正確 (如果排版有改變)
+            // 這裡可以選擇不重新載入，但保持在當前 Tab
+        }
+
+        // --- 回首頁邏輯 (Go Home Logic) ---
+        function goHome() {
+            // 在您的 Vercel 部署環境中，這將導致頁面重新載入，模擬導回主頁
+            location.reload(); 
+            // 實際在多頁網站中，這裡會是 window.location.href = '/index.html'
+        }
+
+
+        // --- Tab 切換邏輯 (Tab Switching Logic) ---
+        function openTab(evt, tabName) {
+            const tabContents = document.querySelectorAll(".tab-content");
+            tabContents.forEach(tab => tab.style.display = "none");
+
+            const tabButtons = document.querySelectorAll(".tab-button");
+            tabButtons.forEach(btn => btn.classList.remove("active"));
+
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+            
+            document.querySelectorAll('.accordion-content.active').forEach(item => {
+                item.classList.remove('active');
+                const iconId = `icon${item.id.replace('content', '')}`;
+                const icon = document.getElementById(iconId);
+                if (icon) {
+                    icon.textContent = '+';
+                }
+            });
+        }
+
+        // --- Accordion 折疊邏輯 (Accordion Logic) ---
+        function toggleAccordion(contentId) {
+            const content = document.getElementById(contentId);
+            const iconId = `icon${contentId.replace('content', '')}`;
+            const icon = document.getElementById(iconId);
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                if (icon) icon.textContent = '+';
+            } else {
+                content.classList.add('active');
+                if (icon) icon.textContent = '−';
+            }
+        }
+
+        // --- 頁面初始設定 ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById("tab1").style.display = "block";
+            document.getElementById("tab-btn-1").classList.add("active");
+            
+            // 預設語言設定為中文
+            setLanguage('zh-TW');
+        });
+    </script>
+
+</body>
+</html>

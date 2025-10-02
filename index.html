@@ -11,11 +11,18 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
         }
+        /* START: 修正 Tab 按鈕樣式以允許換行 */
+        .tab-button {
+            white-space: normal; /* 允許文字自動換行 */
+            min-width: 30%; /* 確保按鈕有基本寬度 */
+        }
         .tab-button.active {
             border-bottom: 4px solid #3b82f6; /* Blue-500 */
             color: #1e40af; /* Blue-800 */
             font-weight: 700;
         }
+        /* END: 修正 Tab 按鈕樣式以允許換行 */
+        
         .accordion-header {
             cursor: pointer;
             transition: background-color 0.2s;
@@ -49,18 +56,19 @@
         <!-- Header -->
         <header class="bg-blue-800 p-6 text-white text-center">
             <h1 class="text-3xl font-extrabold mb-1">甲板物料課規範與實務指南</h1>
-            <p class="text-blue-200 text-sm">船員快速熟悉訓練手冊 (整合版)</p>
+            <p class="text-blue-200 text-sm">新進船員快速熟悉訓練手冊 (整合版)</p>
         </header>
 
         <!-- Tab Buttons -->
-        <div class="flex border-b border-gray-200 bg-gray-50">
-            <button id="tab-btn-1" class="tab-button active flex-1 p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab1')">
+        <div class="flex border-b border-gray-200 bg-gray-50 flex-wrap justify-center sm:flex-nowrap">
+            <!-- 移除 flex-1 並調整 padding 確保空間足夠 -->
+            <button id="tab-btn-1" class="tab-button active p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab1')">
                 常規作業與時程
             </button>
-            <button id="tab-btn-2" class="tab-button flex-1 p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab2')">
+            <button id="tab-btn-2" class="tab-button p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab2')">
                 安全設備與維護
             </button>
-            <button id="tab-btn-3" class="tab-button flex-1 p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab3')">
+            <button id="tab-btn-3" class="tab-button p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab3')">
                 文書與特殊規範
             </button>
         </div>
@@ -106,14 +114,14 @@
                          <p class="font-bold text-base mb-2 text-gray-700">請在以下月份的 **5日以前** 提出季度物料申請：</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                             <div class="p-3 bg-indigo-50 rounded-lg">
-                                <p class="font-semibold text-indigo-800">第一組：</p>
+                                <p class="font-semibold text-indigo-800">第一組申購月份：</p>
                                 <p class="text-xl font-extrabold text-indigo-600 mt-1">1月 / 4月 / 7月 / 10月</p>
-                                <p class="text-sm text-indigo-700 mt-1">WH17X/WH27X/WH283~WH287/WH31X/WH35X/WH365~WH369/WHA11/WHA12/ WHA16~WHA20</p>
+                                <p class="text-sm text-indigo-700 mt-1">代表船隻：WH17X, WH27X, WH31X, WHA11/WHA12...</p>
                             </div>
                             <div class="p-3 bg-green-50 rounded-lg">
-                                <p class="font-semibold text-green-800">第二組：</p>
+                                <p class="font-semibold text-green-800">第二組申購月份：</p>
                                 <p class="text-xl font-extrabold text-green-600 mt-1">2月 / 5月 / 8月 / 11月</p>
-                                 <p class="text-sm text-green-700 mt-1">WH10X/WH288~WH296/WH32X/WH33X/WH360~WH363/WH370~WH377/WH50X/WH51X/WH61X/WH721~WH723/WHA03~WHA10/WHA13/WHA15</p>
+                                 <p class="text-sm text-green-700 mt-1">代表船隻：WH10X, WH32X, WH50X, WHA03~WHA10...</p>
                             </div>
                         </div>
                     </div>

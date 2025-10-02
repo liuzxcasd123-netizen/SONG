@@ -1,325 +1,688 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>甲板物料課綜合規範與指南</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
+!DOCTYPE html
+html lang=zh-TW
+head
+    meta charset=UTF-8
+    meta name=viewport content=width=device-width, initial-scale=1.0
+    title船員課上船前熟悉訓練重點宣導提醒title
+    !-- 引入 Tailwind CSS --
+    script src=httpscdn.tailwindcss.comscript
+    !-- 使用 Inter 字體 --
+    style
+        @import url('httpsfonts.googleapis.comcss2family=Interwght@100..900&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
+            font-family 'Inter', sans-serif;
+            background-color #f4f7f9;  Light background 
         }
-        /* START: 修正 Tab 按鈕樣式以允許換行 */
-        .tab-button {
-            white-space: normal; /* 允許文字自動換行 */
-            min-width: 30%; /* 確保按鈕有基本寬度 */
+        .main-content {
+            min-height calc(100vh - 80px);  Adjust based on header height 
         }
-        .tab-button.active {
-            border-bottom: 4px solid #3b82f6; /* Blue-500 */
-            color: #1e40af; /* Blue-800 */
-            font-weight: 700;
+        .section-card {
+            box-shadow 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition transform 0.3s ease-in-out;
+            border-left 4px solid #3b82f6;  Blue accent bar 
         }
-        /* END: 修正 Tab 按鈕樣式以允許換行 */
-        
-        .accordion-header {
-            cursor: pointer;
-            transition: background-color 0.2s;
+        .section-cardhover {
+            transform translateY(-2px);
+            border-left-color #f59e0b;  Yellow accent on hover 
         }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
-            padding: 0 1rem;
+        .new-module {
+            background-color #ffffff;
+            border-radius 1rem;
+            padding 1.5rem;
+            margin-top 1.5rem;
+            box-shadow 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
         }
-        .accordion-content.active {
-            max-height: 800px; /* Sufficiently large value */
-            padding-top: 0.5rem;
-            padding-bottom: 1.5rem;
-        }
-        .alert-box {
-            background-color: #fef3c7; /* Amber-100 */
-            border-left: 4px solid #fbbf24; /* Amber-400 */
-            color: #a16207; /* Amber-700 */
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body class="p-4 sm:p-8">
+    style
+head
+body class=text-gray-800
 
-    <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
-        
-        <!-- Header -->
-        <header class="bg-blue-800 p-6 text-white text-center">
-            <h1 class="text-3xl font-extrabold mb-1">甲板物料課規範與實務指南</h1>
-            <p class="text-blue-200 text-sm">新進船員快速熟悉訓練手冊 (整合版)</p>
-        </header>
+    !-- 頂部導航欄 (Header) --
+    header class=bg-blue-800 shadow-lg sticky top-0 z-10
+        div class=max-w-7xl mx-auto px-4 smpx-6 lgpx-8 h-16 flex items-center justify-between
+            !-- 標題 --
+            h1 onclick=showPage('home') class=text-xl font-bold text-white tracking-wider cursor-pointer hovertext-yellow-400 transition duration-200 id=header-title
+                船員課上船前熟悉訓練重點宣導提醒
+            h1
+            div class=flex space-x-4 items-center
+                !-- 語言切換按鈕 --
+                button id=lang-toggle-btn class=bg-yellow-400 hoverbg-yellow-500 text-blue-800 font-semibold py-2 px-4 rounded-lg transition duration-200 shadow-md onclick=toggleLanguage()
+                    English
+                button
+                !-- 返回首頁按鈕 --
+                button onclick=showPage('home') class=bg-yellow-400 hoverbg-yellow-500 text-blue-800 font-semibold py-2 px-4 rounded-lg transition duration-200 shadow-md
+                    span data-lang=zh返回首頁span
+                    span data-lang=en class=hiddenBack to Homespan
+                button
+            div
+        div
+    header
 
-        <!-- Tab Buttons -->
-        <div class="flex border-b border-gray-200 bg-gray-50 flex-wrap justify-center sm:flex-nowrap">
-            <!-- 移除 flex-1 並調整 padding 確保空間足夠 -->
-            <button id="tab-btn-1" class="tab-button active p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab1')">
-                常規作業與時程
-            </button>
-            <button id="tab-btn-2" class="tab-button p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab2')">
-                安全設備與維護
-            </button>
-            <button id="tab-btn-3" class="tab-button p-3 text-center text-lg text-gray-600 hover:bg-gray-100 transition duration-150" onclick="openTab(event, 'tab3')">
-                文書與特殊規範
-            </button>
-        </div>
+    !-- 主要內容區域 --
+    main class=main-content max-w-7xl mx-auto p-4 smp-6 lgp-8
+        div id=content-area
+            !-- 內容會由 JavaScript 渲染 --
+        div
+    main
 
-        <!-- Tab Content Container -->
-        <main class="p-4 sm:p-6">
-            
-            <!-- Tab 1: 常規作業與時程 -->
-            <div id="tab1" class="tab-content">
-                <h2 class="text-2xl font-bold mb-4 text-blue-700">物料申購與庫存報表作業</h2>
-                
-                <div class="alert-box">
-                    <p>🚨 **重要提醒：** 所有的物料申購作業，除了緊急或臨時性申請外，皆須**全面使用 FMS 系統**進行。</p>
-                </div>
+    !-- 底部版權 (Footer) --
+    footer class=bg-gray-200 text-gray-600 text-center p-4
+        202510版
+    footer
 
-                <!-- Accordion 1.1: 庫存更新時程 (每季) -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-t-lg" onclick="toggleAccordion('content1_1')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            1.1 季度庫存更新時程 (每月 5 日前)
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon1_1">+</span>
-                    </div>
-                    <div class="accordion-content bg-white rounded-b-lg" id="content1_1">
-                        <p class="font-bold text-base mb-2 text-gray-700">以下物料，請於 **2月/5月/8月/11月** 的 **5日以前** 在 FMS 中更新：</p>
-                        <ul class="list-disc list-inside space-y-1 pl-4 text-gray-700">
-                            <li>**纜繩 (Hawsers)**：需更新數量、ABC 級狀態維護、庫位維護。</li>
-                            <li>**鎖具 (Lashing Gears)**：需更新數量、ABC 級狀態維護、庫位維護。</li>
-                            <li>**WIRE 鋼纜**：需更新數量與庫位維護。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Accordion 1.2: 季度申購月份 (Running Store) -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100" onclick="toggleAccordion('content1_2')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            1.2 季度申購月份 (RUNNING STORE)
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon1_2">+</span>
-                    </div>
-                    <div class="accordion-content bg-white" id="content1_2">
-                         <p class="font-bold text-base mb-2 text-gray-700">請在以下月份的 **5日以前** 提出季度物料申請：</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                            <div class="p-3 bg-indigo-50 rounded-lg">
-                                <p class="font-semibold text-indigo-800">第一組申購月份：</p>
-                                <p class="text-xl font-extrabold text-indigo-600 mt-1">1月 / 4月 / 7月 / 10月</p>
-                                <p class="text-sm text-indigo-700 mt-1">代表船隻：WH17X, WH27X, WH31X, WHA11/WHA12...</p>
-                            </div>
-                            <div class="p-3 bg-green-50 rounded-lg">
-                                <p class="font-semibold text-green-800">第二組申購月份：</p>
-                                <p class="text-xl font-extrabold text-green-600 mt-1">2月 / 5月 / 8月 / 11月</p>
-                                 <p class="text-sm text-green-700 mt-1">代表船隻：WH10X, WH32X, WH50X, WHA03~WHA10...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Accordion 1.3: 半年報表與非消耗品 -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-b-lg" onclick="toggleAccordion('content1_3')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            1.3 半年報表與非消耗品申請規定
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon1_3">+</span>
-                    </div>
-                    <div class="accordion-content bg-white rounded-b-lg" id="content1_3">
-                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
-                            <li>**TWISTLOCK 最大用量調查表**：請於 **1月/7月** 的 **10日以前** 將電子檔寄給 PIC。</li>
-                            <li>**非消耗性物品**：如削鉛筆機、計算機等，不易損壞物品，申請時請**務必註明申請原因**供岸端審核。</li>
-                             <li>**燈具/水龍頭**：申請時需**確實填寫規格**。</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 2: 安全設備與維護 -->
-            <div id="tab2" class="tab-content hidden">
-                <h2 class="text-2xl font-bold mb-4 text-blue-700">安全設備重點檢查與淘汰標準</h2>
-                
-                <div class="alert-box">
-                    <p>🚨 **生命安全設備**：維護與申購時程嚴格，需優先處理，確保符合 **SOLAS** 及 **MSC** 規範！</p>
-                </div>
-
-                <!-- Accordion 2.1: 呼吸器與消防設備 -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-t-lg" onclick="toggleAccordion('content2_1')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            2.1 SCBA/EEBD & 滅火器檢查
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon2_1">+</span>
-                    </div>
-                    <div class="accordion-content bg-white rounded-b-lg" id="content2_1">
-                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
-                            <li>**SCBA/EEBD**：**三副**需**每週**定期確認有無漏氣、面罩破損或壓力不足。</li>
-                            <li>**SCBA/EEBD 更新**：如需更新，請**拍照後附上規格型號**向物料課即時提出申請。</li>
-                            <li>**手提式滅火器**：檢查過度鏽蝕/洩漏/軟管老化等不適狀況，如損壞嚴重，請**立即**由 FMS 提出換新申請，**無須等待年檢時才更換**。</li>
-                            <li>**SOPEP 專用滅火器**：SOPEP 專用 9L 泡沫滅火器也請確實檢驗，不要遺漏。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Accordion 2.2: 浸水衣與纜繩尾淘汰標準 -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100" onclick="toggleAccordion('content2_2')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            2.2 浸水衣 / 纜繩尾 檢查與淘汰
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon2_2">+</span>
-                    </div>
-                    <div class="accordion-content bg-white" id="content2_2">
-                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
-                            <li>**浸水衣 (Immersion Suit)**：**每月自檢**，檢查拉鍊操作並適時潤滑。</li>
-                            <li>**浸水衣淘汰**：針對超過 **13年** 的浸水衣，請於到期年檢前申請直接採購換新。</li>
-                            <li>**纜繩尾 (Mooring Tail) 壽命**：公司建議服務壽命為 **18個月** 更換。</li>
-                            <li>**纜繩尾淘汰標準**：目標淘汰標準為殘餘強度達到船舶設計破斷力的 **75%**。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Accordion 2.3: 船用纜繩規定 -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-b-lg" onclick="toggleAccordion('content2_3')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            2.3 纜繩存放與規格規定
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon2_3">+</span>
-                    </div>
-                    <div class="accordion-content bg-white rounded-b-lg" id="content2_3">
-                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
-                            <li>**存放原則**：應存放在乾淨、乾燥的地方，**遠離直射陽光和高溫**，並架高遠離地面。</li>
-                            <li>**嚴禁事項**：切勿將纜繩存放在混凝土或骯髒的地面上，**絕不**能與酸性或鹼性物質放在一起。</li>
-                            <li>**纜繩尾規格**：公司要求纜繩尾長度**統一為 11 米**，且破斷力 (TDBF) 需達船舶設計破斷力 (MBL) 的 **125-130%**。</li>
-                            <li>**救生艇吊索 (Boat Fall wire)**：必須是 **不可旋轉 (non-rotated)** 型，常見規格如 18*7、19*7、4*39 等。</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Tab 3: 文書與特殊規範 -->
-            <div id="tab3" class="tab-content hidden">
-                <h2 class="text-2xl font-bold mb-4 text-blue-700">文書作業、系統與特殊物料管理</h2>
-                
-                <!-- Accordion 3.1: 圖書與系統 -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-t-lg" onclick="toggleAccordion('content3_1')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            3.1 海圖、圖書與系統規範
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon3_1">+</span>
-                    </div>
-                    <div class="accordion-content bg-white rounded-b-lg" id="content3_1">
-                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
-                            <li>**ECDIS 電子海圖**：請定期更新機台上的到期日期，並於**到期前一個月**提出申請。</li>
-                            <li>**電子法規書**：若船隻配有 **『SeaReader』** 軟體，申請軟體內電子書請使用 FMS 料號申請。</li>
-                            <li>**LMP 繫泊管理計畫書**：應以**實體或電子檔**方式提供，並儲放在**所有使用者都能輕易取得**的位置。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Accordion 3.2: 鎖具與電器規範 -->
-                <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100" onclick="toggleAccordion('content3_2')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            3.2 鎖具與船上電器管理
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon3_2">+</span>
-                    </div>
-                    <div class="accordion-content bg-white" id="content3_2">
-                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
-                            <li>**TWISTLOCK 卡住**：若鎖具發生卡住或故障，請**立即**通知物料課 PIC，並將紀錄或聲明給予港口當局。</li>
-                            <li>**延長線**：一律由公司採購，**不得自行攜帶**。**蓋世特延長線**每房間上限一條，**6孔延長線**僅供公共區域使用。</li>
-                            <li>**船上生活家電**：由大副管理與申請，但由甲板物料課安排供應、卸修等作業。相關問題請**直接詢問 PIC**。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Accordion 3.3: 特殊情況處理 -->
-                 <div class="mb-4 rounded-lg shadow-md border border-gray-200">
-                    <div class="accordion-header flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-b-lg" onclick="toggleAccordion('content3_3')">
-                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                            3.3 特殊情況：隨身攝影機與戰區
-                        </h3>
-                        <span class="text-2xl text-blue-600 font-bold transition-transform duration-300" id="icon3_3">+</span>
-                    </div>
-                    <div class="accordion-content bg-white rounded-b-lg" id="content3_3">
-                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
-                            <li>**隨身攝影機**：請參考 S-157 通告。若有任何人拒絕被錄影，**必須立即停止錄影**；若有人要求刪除紀錄，**必須刪除**。</li>
-                            <li>**反海盜措施**：若進入 JWC 定義的戰區（如中東/紅海），仍須實施 BMP5 標準，建議申請**刀片式反海盜鐵絲網**。</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm">
-            <p>本指南整合自 WHL LMP V-01, C-16 甲板物料課相關規範及船員熟悉訓練文件 (2025/07更新)。</p>
-        </footer>
-    </div>
-
-    <script>
-        // Function to handle tab switching
-        function openTab(evt, tabName) {
-            // Get all elements with class="tab-content" and hide them
-            const tabContents = document.querySelectorAll(".tab-content");
-            tabContents.forEach(tab => tab.style.display = "none");
-
-            // Get all elements with class="tab-button" and remove the active class
-            const tabButtons = document.querySelectorAll(".tab-button");
-            tabButtons.forEach(btn => btn.classList.remove("active"));
-
-            // Show the current tab, and add an "active" class to the button that opened the tab
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.classList.add("active");
-            
-            // Close all accordions when switching tabs for a clean view
-            document.querySelectorAll('.accordion-content.active').forEach(item => {
-                item.classList.remove('active');
-                const iconId = `icon${item.id.replace('content', '')}`;
-                const icon = document.getElementById(iconId);
-                if (icon) {
-                    icon.textContent = '+';
-                }
-            });
-        }
-
-        // Function to handle accordion toggling
-        function toggleAccordion(contentId) {
-            const content = document.getElementById(contentId);
-            const iconId = `icon${contentId.replace('content', '')}`;
-            const icon = document.getElementById(iconId);
-            
-            // Toggle the clicked content
-            if (content.classList.contains('active')) {
-                content.classList.remove('active');
-                if (icon) icon.textContent = '+';
-            } else {
-                content.classList.add('active');
-                if (icon) icon.textContent = '−';
+script
+     FIX 為了避免在某些執行環境中出現 ReferenceError, 將 constlet 變更為 var
+    var currentLang = 'zh'; 
+    
+     --- 培訓資料 (Data) - 包含中英文內容 ---
+    var trainingData = {
+        home {
+            title { zh 歡迎來到船員職前熟悉訓練, en Welcome to Seafarer Pre-Boarding Familiarization Training },
+            revisionHighlights {
+                title { zh 📄 本次改版重點 (Ver. 202510), en 📄 Key Revision Highlights (Ver. 202510) },
+                items [
+                    { 
+                        zh 重大更新：全面落實船隊「零酒精」政策，取消所有例外安排，個人 BAC 須為 $0.00%$。, 
+                        en Major Update Full implementation of the fleet Zero Alcohol Policy, canceling all exceptions; individual BAC must be $0.00%$. 
+                    },
+                    { 
+                        zh 重申：嚴格禁止船員於船上攜帶任何酒精類飲品之行為 (生效日：2025 年 4 月)。, 
+                        en Reiteration Strict prohibition on crew members bringing any alcoholic beverages onboard (Effective April 2025). 
+                    },
+                    { 
+                        zh 新增：將性別平等與防制性騷擾獨立列為第 11 項重點，並提供申訴專用信箱。, 
+                        en New Gender Equality & Anti-Sexual Harassment Prevention is listed as Topic 11, including the dedicated complaint email (crew-anti-harassment@wanhai.com). 
+                    },
+                    { 
+                        zh 重申：禁止持有、使用或購買電子煙及相關產品，違者將面臨法律責任。, 
+                        en Reiteration Strict prohibition on the possession, use, or purchase of e-cigarettes and related products, subject to legal consequences. 
+                    },
+                    { 
+                        zh 更新：船長與輪機長異動間隔延長至半個月以上；船長大副與輪機長大管異動間隔維持一個月以上。, 
+                        en Update MasterChief Engineer change interval extended to more than half a month; MasterCO and CE1E change interval remains more than one month. 
+                    },
+                ]
+            },
+            references {
+                title { zh 📚 參考文件來源, en 📚 Reference Document Sources },
+                items [
+                    { 
+                        zh 船員職前熟悉訓練單 (CN) - 202509版 (Ver. 202509), 
+                        en CONFIRMATION RECORD OF ORIENTATION TRAINING (Ver. 202509) 
+                    },
+                    { 
+                        zh 大陸船員上下船應注意事項 - Ver. 202509-1, 
+                        en Attention to crew movement for seafarers (Ver. 202509-1) 
+                    },
+                    { 
+                        zh 上下船注意事項 - Items to Bring & NOT to bring - 202509, 
+                        en Items to Bring & NOT to bring - 202509 
+                    },
+                    { 
+                        zh 船隊行政作業手冊、通告及相關辦法, 
+                        en Fleet Administrative Working Manuals, Circulars, and relevant Measures 
+                    },
+                    {
+                          修改此處 
+                        zh 全面落實零酒精政策通知,
+                        en Full Implementation of the fleet Zero Alcohol Policy
+                          修改結束 
+                    }
+                ]
+            },
+             將靜態內容和動態內容分開
+            staticContent {
+                zh `
+                    p class=text-lg mb-8 text-gray-600本訓練網站將核心規定歸納為 11 大重點。請依序點擊閱讀，確保您完全理解所有重要的行政、安全及紀律要求，順利完成上船準備。p
+                    div class=grid grid-cols-2 mdgrid-cols-3 lggrid-cols-5 gap-4 mdgap-6
+                        div onclick=showPage('topic1') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base1. 證件證書與疫苗要求h3
+                            p class=text-gray-500 text-xs體檢效期、黃皮書、STCW複訓、證件保管。p
+                        div
+                        div onclick=showPage('topic2') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base2. 上下船個人物品規定h3
+                            p class=text-gray-500 text-xs必備用品、建議項目與船上提供品項。p
+                        div
+                        div onclick=showPage('topic3') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base3. 嚴格禁止攜帶走私品h3
+                            p class=text-gray-500 text-xs高耗電電器、非法藥物、貴重物品與走私風險。p
+                        div
+                        div onclick=showPage('topic4') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-red-700 mb-1 text-sm mdtext-base4. 零酒精政策與電子煙政策 (全面更新)h3
+                            p class=text-gray-500 text-xsBAC $0.00%$、管制要求、舊規章廢止、違規懲處。p
+                        div
+                        div onclick=showPage('topic5') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base5. 靠泊值班與下地規範h3
+                            p class=text-gray-500 text-xs留守人員、下地報備、返船時限與港口規定。p
+                        div
+                        div onclick=showPage('topic6') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base6. 安全作業與環境保護h3
+                            p class=text-gray-500 text-xsPPE穿戴、風險評估、危險區域及ESG環保。p
+                        div
+                        div onclick=showPage('topic7') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base7. 職務交接與休假行政h3
+                            p class=text-gray-500 text-xs請假時程、Keyman異動間隔、病假認定標準。p
+                        div
+                        div onclick=showPage('topic8') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base8. 薪資、伙食與福利h3
+                            p class=text-gray-500 text-xs薪資發放、伙食費規定、節日加發與船員專用菸。p
+                        div
+                        div onclick=showPage('topic9') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base9. 通訊、保密與資訊安全h3
+                            p class=text-gray-500 text-xs保密協定、駕駛台禁手機、衛星網路與詐騙防範。p
+                        div
+                        div onclick=showPage('topic10') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base10. 健康管理與緊急醫療h3
+                            p class=text-gray-500 text-xs傷病通報、血壓控管、心理諮商服務與指定院所。p
+                        div
+                        div onclick=showPage('topic11') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-red-700 mb-1 text-sm mdtext-base11. 性別平等與防制性騷擾h3
+                            p class=text-gray-500 text-xs尊重平權、申訴管道、專用信箱 (重要)。p
+                        div
+                    div
+                    div class=mt-8 p-6 bg-red-100 border-l-4 border-red-500 rounded-lg
+                        h4 class=font-bold text-lg text-red-800 mb-2🔔 核心紀律重申 (零酒精政策)：h4
+                        ul class=list-disc list-inside text-red-700 space-y-1
+                            li全面落實零酒精： 船上人員 BAC 必須為 $0.00%$。li
+                            li嚴格禁令： 禁止購買、攜帶、持有、飲用任何酒精性飲品。li
+                            li舊規廢止： 取消所有以節慶、慰勞、加菜等名義的酒精配發或消費安排。li
+                            li拒測即不合格： 拒絕酒測視同酒測不合格。li
+                            li嚴禁攜帶或使用電子煙 (VAPE) 及相關產品。li
+                        ul
+                    div
+                `,
+                en `
+                    p class=text-lg mb-8 text-gray-600This training website summarizes the core regulations into 11 key points. Please click and read them sequentially to ensure you fully understand all important administrative, safety, and disciplinary requirements and complete your preparation for joining the vessel.p
+                    div class=grid grid-cols-2 mdgrid-cols-3 lggrid-cols-5 gap-4 mdgap-6
+                        div onclick=showPage('topic1') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base1. Certificates, Documents & Vaccine Requirementsh3
+                            p class=text-gray-500 text-xsMedical expiry, Yellow Card, STCW renewal, document custody.p
+                        div
+                        div onclick=showPage('topic2') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base2. Personal Items for BoardingDisembarkingh3
+                            p class=text-gray-500 text-xsEssentials, recommended items, and items provided onboard.p
+                        div
+                        div onclick=showPage('topic3') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base3. Strictly ProhibitedSmuggling Itemsh3
+                            p class=text-gray-500 text-xsHigh-power appliances, illegal drugs, valuables, and smuggling risks.p
+                        div
+                        div onclick=showPage('topic4') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-red-700 mb-1 text-sm mdtext-base4. Full Zero Alcohol and E-cigarette Policy (Updated)h3
+                            p class=text-gray-500 text-xsBAC $0.00%$, controls, repeal of prior arrangements, discipline.p
+                        div
+                        div onclick=showPage('topic5') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base5. Berthing Watch & Shore Leave Regulationsh3
+                            p class=text-gray-500 text-xsStay-on personnel, shore leave reporting, return time, and port regulations.p
+                        div
+                        div onclick=showPage('topic6') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base6. Safety Operations & Environmental Protectionh3
+                            p class=text-gray-500 text-xsPPE wear, risk assessment, hazardous areas, and ESG environment.p
+                        div
+                        div onclick=showPage('topic7') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base7. Handover of Duties & Leave Administrationh3
+                            p class=text-gray-500 text-xsLeave timeline, Keyman interval, sick leave validation criteria.p
+                        div
+                        div onclick=showPage('topic8') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base8. Salary, Catering & Welfareh3
+                            p class=text-gray-500 text-xsSalary issuance, catering expense rules, holiday bonus, and crew-specific cigarettes.p
+                        div
+                        div onclick=showPage('topic9') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base9. Communication, Confidentiality & Information Securityh3
+                            p class=text-gray-500 text-xsConfidentiality agreement, mobile phone ban on the bridge, satellite network, and fraud prevention.p
+                        div
+                        div onclick=showPage('topic10') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-blue-700 mb-1 text-sm mdtext-base10. Health Management & Emergency Medicalh3
+                            p class=text-gray-500 text-xsInjury reporting, blood pressure control, psychological counseling, and designated institutions.p
+                        div
+                        div onclick=showPage('topic11') class=section-card bg-white p-4 rounded-xl cursor-pointer
+                            h3 class=font-semibold text-red-700 mb-1 text-sm mdtext-base11. Gender Equality & Anti-Sexual Harassment Preventionh3
+                            p class=text-gray-500 text-xsRespect for equality, complaint channels, dedicated mailbox (important).p
+                        div
+                    div
+                    div class=mt-8 p-6 bg-red-100 border-l-4 border-red-500 rounded-lg
+                        h4 class=font-bold text-lg text-red-800 mb-2🔔 Core Disciplinary Reiteration (Zero Alcohol Policy)h4
+                        ul class=list-disc list-inside text-red-700 space-y-1
+                            liFull Zero Alcohol Policy Onboard personnel BAC must be $0.00%$.li
+                            liStrict Prohibition Possession, purchase, carriage and consumption of any alcohol are strictly prohibited.li
+                            liPrior Arrangements Repealed All arrangements for distributionconsumption of alcohol under the title of festival, welfare, or special meal are cancelled.li
+                            liRefusal is Failure Refusal to take an alcohol test equals failure.li
+                            liStrictly prohibited to carry or use e-cigarettes (VAPE) and related products.li
+                        ul
+                    div
+                `
             }
+        },
+         --- 11 大主題內容 ---
+        topic1 {
+            title { zh 1. 證件證書與疫苗要求, en 1. Certificates, Documents & Vaccine Requirements },
+            sections [
+                {
+                    subtitle { zh 證件與文件注意事項, en Document and Certificate Notes },
+                    items [
+                        { zh 上船前請確認僱傭契約、派任單、職前訓練單等文件內容填寫正確無誤。, en Please check the correctness of SEA, notice of assignment, training orientation & essential instruction. },
+                        { zh 二年效期體檢表-請留意”海船船員健康證書”的部門別,選擇服務職級之部門別。體檢表效期需大於合約期間。, en The department on the medical certificate should be Deck or Engine which is according to the rank. The expiry date of medical certificate must be later than the date of finishing contract. },
+                        { zh 所有證件、證書、上船文件、體檢表及健康證等請務必確認效期皆超過一年以上並攜帶上船。, en The expiration date of all certificates, documents, and medical reports must be valid for more than one year. },
+                        { zh 一年效期健康證（大廚需加做糞便檢查）上船前需重做健康證體檢。, en One-year validity health certificate (Chief Cook requires stool test) must be redone before joining the vessel. },
+                        { zh 個人證件與證書請務必備存一份電子檔於手機。, en Please save a copy of personal certificates and documents on your mobile device. },
+                        { zh 證件保管：船靠港或離港時,當班船副須清點護照海員證。開航後須把證件放置於船長房間並上鎖。, en The duty officer must check the number of crew members' passports and seaman books to avoid loss or theft of the certificates when the ship arrival and departure. After sailing, the passport, seaman books and other documents must be placed in the master's room and locked.  }
+                    ]
+                },
+                {
+                    subtitle { zh 疫苗與複訓要求, en Vaccine and Refresher Requirements },
+                    items [
+                        { zh 黃皮書：務必完成注射黃熱病及霍亂疫苗,黃熱病疫苗應為無限期。, en Please be sure to take yellow fever and cholera before joining vessel with each vaccination having a validity of at least one year. },
+                        { zh 若黃熱病疫苗距上次接種超過 10 年者，建議追加。, en If the yellow fever vaccine is more than 10 years since the last vaccination, re-vaccination is recommended. },
+                        { zh STCW 複訓：部分訓練需每五年複訓,請留意自身證書效期並報名複習訓練。, en Some of the STCW certificates should be renewed every five years. Please pay attention to the expiry date and apply for refresher training. }
+                    ]
+                }
+            ]
+        },
+        topic2 {
+            title { zh 2. 上下船個人物品規定, en 2. Personal Items for BoardingDisembarking },
+            sections [
+                {
+                    subtitle { zh 必備個人用品 (依航線與氣候準備), en Essential Personal Belongings (Prepare according to route and climate) },
+                    items [
+                        { zh 服裝類：發熱衣褲、羽絨衣、球鞋運動鞋、兩雙拖鞋（室內外）、充足的貼身衣物（內褲、襪子、鞋墊）。, en Thermal clothing (e.g., uniform pants + thermal pants, can be worn in layers), Down Jacket, Sneakers or Sports Shoes, Two pairs of slippers (IndoorOutdoor), Sufficient Personal Clothing - Underwear, Socks, Insoles. },
+                        { zh 盥洗類：洗髮精、沐浴乳（船上僅提供肥皂）、自動斷電吹風機（建議）、洗衣袋刷。, en Shampoo and Body Wash (Soap will be provided), Hair dryer with automatic power-off feature is recommended, Laundry Bag and brush. },
+                        { zh 其他雜項：少量現金、代理聯絡方式、個人用品（刮鬍刀、指甲剪、水壺等）、筆記本、充電器、萬用轉接頭、備用眼鏡、個人常備藥品。, en Small amount of cash (USD or the currency of the country you are traveling to), Agent's contact information (recommended to be recorded in phone), Necessities (razor, nail clippers, mug, water bottle, reusable shopping bag, toothbrush, toothpaste, dental floss, comb, etc.), Notebook, Charger, Universal Power Adapter, Laptop, Spare eyeglasses, personal medication. }
+                    ]
+                },
+                {
+                    subtitle { zh 船上提供品項, en Items Provided Onboard },
+                    items [
+                        { zh 制服（含工作鞋、安全帽）、衣架可於上船後由船端申請。, en Uniforms (including work shoes and safety helmet) and hangers will be provided by the ship's side upon application. },
+                        { zh 船上提供肥皂、洗衣粉。, en Soap and laundry powder are provided onboard. },
+                        { zh 船上提供：枕頭套、床單、浴巾、毛巾。, en Pillowcase, bed sheet, bath towel, and hand towel are provided onboard. },
+                        { zh 船上各房間皆已配備一條專用延長線。如有需要，請再與大副提出申請。, en An exclusive extension cord is provided in each room. If you need more, please apply to the Chief Officer. }
+                    ]
+                }
+            ]
+        },
+        topic3 {
+            title { zh 3. 嚴格禁止攜帶走私品, en 3. Strictly ProhibitedSmuggling Items },
+            sections [
+                {
+                    subtitle { zh 🚫 船上嚴格禁止攜帶物品, en 🚫 Strictly Prohibited Items Onboard },
+                    items [
+                        { zh 高耗電電器用品：例如電磁爐、熨斗。若需延長線請向大副申請。, en Any Electronic electrical appliance gadget, such as induction stoves and irons. If you need an extension cord, please apply to the Chief Officer. },
+                        { zh 違禁藥物及任何非法藥物。, en Contraband and any illegal drugs. },
+                        { zh 貴重物品或大量現金：如黃金、珠寶，遺失風險自負，不建議攜帶。, en Valuables or large amounts of cash Such as gold, jewelry. Loss is at your own risk; not recommended. },
+                        { zh 未經許可的動植物或其產品：避免觸犯各國檢疫法規。, en Unauthorized animalsplants or their products To avoid violating quarantine laws of various countries. }
+                    ]
+                },
+                {
+                    subtitle { zh 走私及違禁品警告, en Smuggling and Contraband Warning },
+                    items [
+                        { zh 嚴禁走私任何違禁品及未稅品（如黃金、香煙、酒類、食品及日用品等）。, en Strictly prohibited to smuggle any contraband or unpaid goods (such as gold, cigarettes, alcohol, food, and daily necessities). },
+                        { zh 走私毒品或槍械在多數國家可能面臨死刑或無期徒刑。, en Smuggling drugs or firearms may face the death penalty or life imprisonment in most countries. },
+                        { zh 梯口當值人員須嚴格檢查上下船人員及其攜帶物品，公司將不定期抽查 CCTV 紀錄。, en Gangway watch personnel must strictly check the personnel and their belongings coming onoff the ship. The company will conduct random CCTV checks. },
+                        { zh 新加坡海關禁止攜帶口香糖、嚼煙及各類盜版出版品，所有菸品均須課稅，不得享有免稅額。, en Singapore Customs prohibits carrying chewing gum, chewing tobacco, and all types of pirated publications. All tobacco products are subject to tax and no duty-free allowance is granted. }
+                    ],
+                    alert { zh 任何違規行為依公司規定懲處，情節重大者將終止合約並依法追究責任！, en Any violation will be punished according to company regulations. Serious cases will result in termination of contract and legal action! }
+                }
+            ]
+        },
+        topic4 {
+            title { zh 4. 全面落實船隊「零酒精」政策與電子煙政策, en 4. Full Implementation of the Fleet Zero Alcohol Policy and E-cigarette Policy },
+            sections [
+                {
+                    subtitle { zh ⚓ 零酒精政策 (Zero Alcohol Policy), en ⚓ Zero Alcohol Policy },
+                    items [
+                        { zh 宣導主旨與目的： 為確保航行安全與紀律一致性，統一公司規定並消除過往文字或慣例造成之誤解，特公告本公司船隊零酒精政策之適用範圍、管制作為與違規懲處。, en Policy Subject & Purpose To ensure safety and consistent discipline, the Company hereby clarifies the scope, controls and disciplinary measures under the Fleet Zero Alcohol Policy. },
+                        { zh 名詞定義：酒精性飲品指任何酒精濃度高於 $0.00%$ 之飲品。, en Definition Alcoholic beverages refer to any beverage with alcohol content above $0.00%$. },
+                        { zh 名詞定義：酒精測試(酒測)包含隨機或針對性呼氣檢測；拒測視同不合格。, en Definition Alcohol testing includes randomfor-cause breath tests; refusal equals failure. },
+                        { zh 適用範圍： 本政策適用於全體船上人員(含訪客)，並適用於海上、錨地、靠港之任何時段。, en Scope This Policy applies to all onboard personnel (including visitors) at sea, at anchor and alongside, at all times. },
+                        { zh 管制要求 (零容忍)： 禁止購買、攜帶、持有、飲用任何酒精性飲品。, en Controls (Zero Tolerance) Possession, purchase, carriage and consumption of any alcohol are strictly prohibited. },
+                        { zh 管制要求： 所有作業前後，個人酒精濃度標準一律為 $0.00%$。, en Controls BAC must be $0.00%$ beforeafter any operation. },
+                        { zh 舊規章廢止： 即日起，取消並廢止任何以節慶、慰勞、加菜等名義進行之酒精性飲品購置、配發或消費之安排。如有與本政策牴觸之既有條款，悉以本通告為準。, en Repeal of Prior Arrangements With immediate effect, any arrangement to purchase, distribute or consume alcohol under the title of festival, welfare or special meal is cancelled and repealed. This Circular prevails in case of conflict. },
+                        { zh 查核執行： 梯口當值人員應查驗上船及返船人員隨身物品。船長或公司代表得進行隨機或針對性酒測。, en Enforcement Gangway duty personnel shall check the belongings of returning and boarding crew members. The MasterCompany may conduct randomfor-cause breath tests. },
+                        { zh 供應鏈管制： 供應商、代理公司不得提供或代購酒精性飲品。任何形式之外購、走私或夾帶一律視為違規。, en Supply Chain Controls Suppliersagents shall not provide or procure alcohol. Any external purchase, smuggling or concealment is a violation. },
+                        { zh 違規懲處： 依公司紀律規範辦理，得予以記過、停航遣返終止合約等；涉及私運、共謀或不實通報者，將加重懲處。, en Disciplinary Actions Subject to Company disciplinary rules, including warnings, suspension from sailingrepatriationtermination; smuggling, conspiracy or false reporting will be penalized accordingly. }
+                    ]
+                },
+                {
+                    subtitle { zh 💊 醫療酒精含酒精藥品, en 💊 Medicinal Alcohol  Medicines },
+                    items [
+                        { zh 名詞定義：限醫囑或必要醫療用途，並記載於醫療日誌。, en Definition Subject to medical advicenecessity and recorded in the medical log. },
+                        { zh 使用規定：事前告知船長並記錄於醫療日誌；原則以無酒精替代品為先。, en Usage Rule Requires prior declaration to the Master and medical log entry; use non-alcohol alternatives whenever possible. },
+                    ]
+                },
+                {
+                    subtitle { zh 🚫 電子煙（VAPE）政策, en 🚫 E-cigarette (VAPE) Policy },
+                    items [
+                        { zh 嚴禁持有與使用：電子煙（含電子菸及相關產品）在台灣、新加坡、香港、泰國、越南、印度等地區均屬違禁品。, en E-cigarettes (including electronic cigarettes and related products) are considered contraband in regions like Taiwan, Singapore, Hong Kong, Thailand, Vietnam, and India. },
+                        { zh 違規處罰：違者將面臨嚴厲處罰，包括逮捕、罰款或監禁等法律責任。, en Violators may face severe penalties, including arrest, fines, or imprisonment. },
+                        { zh 上下船時須確保未攜帶電子煙產品，船舶停靠新加坡期間執法單位皆可能登輪抽查。, en Ensure no e-cigarette products are carried during boardingdisembarking. Law enforcement may conduct random checks while the vessel is docked in Singapore. }
+                    ]
+                }
+            ]
+        },
+        topic5 {
+            title { zh 5. 靠泊值班與下地規範, en 5. Berthing Watch & Shore Leave Regulations },
+            sections [
+                {
+                    subtitle { zh 靠泊期間值班與留守, en Watchkeeping and Staying Onboard During Berthing },
+                    items [
+                        { zh 留守人員：甲板乙級船員兩名留守（一名巡視、一名梯口班）。輪機乙級一名留守。, en Two Deck ratings (one patrol, one gangway watch) and one Engine rating must stay onboard. },
+                        { zh 主管輪值：甲板（船長與大副，二副與三副）需相互輪值；輪機（輪機長與大管，二管與三管）需互相輪值。, en Deck (Master & CO, 2O & 3O) and Engine (CE & 1E, 2E & 3E) Supervisors must rotate duties. },
+                        { zh 特殊狀況：船舶檢驗、港口國檢查等，4 Keyman 需全程陪同。, en During vessel inspections or Port State Control (PSC), the 4 Keymen must be present throughout. },
+                        { zh 加油期間：所有機艙人員均須依規定留守。, en All engine room personnel must remain on duty as per regulations during bunkering operations. }
+                    ]
+                },
+                {
+                    subtitle { zh 下地（上岸）規定, en Shore Leave Regulations (Going Ashore) },
+                    items [
+                        { zh 下地船員應獲得主管批准，應保持手機暢通，隨時待命。, en Crew members going ashore must obtain supervisor approval, keep their mobile phones accessible, and be on standby. },
+                        { zh 返船時限：各部門需在開船前完成檢查和點名，最遲開航前 1 小時返船。, en Departments must complete checks and roll calls before departure, and return to the vessel at least 1 hour before sailing. },
+                        { zh 安全裝備：同仁於下地或碼頭作業，皆須穿戴安全裝備（反光背心、安全帽），行走人行通道。, en All personnel must wear safety gear (reflective vests, safety helmets) and walk on designated pedestrian paths when ashore or working on the dock. },
+                        { zh 行為規範：勿涉足不法場所或從事違法活動，嚴禁上岸酗酒、進出聲色場所。, en Do not frequent illegal venues or engage in unlawful activities. Strictly prohibit heavy drinking and visiting inappropriate entertainment venues. },
+                        { zh 印度巴基斯坦：基於安全考量，船員岸上休假嚴格禁止。, en IndiaPakistan Crew shore leave is strictly prohibited due to safety concerns. }
+                    ]
+                }
+            ]
+        },
+        topic6 {
+            title { zh 6. 碼頭作業與入境管理 (ISPSCustoms), en 6. Port Operations and Entry Management (ISPSCustoms) },
+            sections [
+                {
+                    subtitle { zh 碼頭作業與安全裝備, en Port Operations and Safety Gear },
+                    items [
+                        { zh 嚴格執行工作前風險評估，並正確使用個人防護裝備（PPE）。, en Strictly execute Job Hazard Analysis (JHA) before work and correctly use Personal Protective Equipment (PPE). (Includes safety helmet, safety harness, goggles, etc.) },
+                        { zh 惡劣天候：在惡劣天候下需至主甲板作業，須獲得船長的書面批准。, en Operations on the main deck in adverse weather require written approval from the Master. },
+                        { zh 危險區域：艏樓甲板、船艉及開放式欄杆的主甲板均屬於危險區域，請謹慎操作。, en Forecastle deck, stern, and open rail main deck are hazardous areas; operate with caution. },
+                        { zh 水刀作業：操作水刀時，應依規定穿著水刀防護衣。, en Wear water jet protective clothing as required when operating the hydro-blaster. },
+                        { zh 甲板作業區：通過甲板作業艙區時，要留意高空作業貨櫃之潛在危險性。, en When passing through deck work areas, be mindful of potential danger from containers overhead, especially in aisle ways between cargo holds and along the ship's side. }
+                    ]
+                },
+                {
+                    subtitle { zh 中國（深圳）海關規範提醒, en China (Shenzhen) Customs Notice },
+                    items [
+                        { zh 鹽田海關：海關上班時間可攜合理數量購物物品，非上班時間禁止背包及購物物品。, en Yantian 0900-1700 Reasonable shopping items allowed with declaration. 1700-0900 Only personal items (wallet, ID); backpacks and shopping items not allowed. },
+                        { zh 蛇口海關：全日限制，僅可攜帶錢包、證件等個人物品，禁止其他物品。, en Shekou All day Only personal items allowed. },
+                        { zh 大鏟灣海關：僅允許上班時間可攜物品，必須申報並接受監管。, en DaChan Bay 0900-1700 only Items allowed with declaration. }
+                    ]
+                }
+            ]
+        },
+        topic7 {
+            title { zh 7. 職務交接與休假行政, en 7. Handover of Duties & Leave Administration },
+            sections [
+                {
+                    subtitle { zh 請假申請與 Keyman 異動, en Leave Application and Keyman Changes },
+                    items [
+                        { zh 請假時程：除緊急重大傷病外，各項請假申請須於預計離船前 45 天前提出。, en All leave applications must be submitted 45 days prior to the planned sign-off date. },
+                        { zh Keyman 異動間隔：船長大副異動必須間隔一個月以上。, en Changes in MasterChief Officer must be separated by more than one month. },
+                        { zh Keyman 異動間隔：輪機長大管異動必須間隔一個月以上。, en Changes in Chief EngineerFirst Engineer must be separated by more than one month. },
+                        { zh 最高主管：船長、輪機長之異動應間隔半個月以上。, en Changes in Master and Chief Engineer should be separated by more than half a month. }
+                    ]
+                },
+                {
+                    subtitle { zh 病假與職務交接, en Sick Leave and Handover of Duties },
+                    items [
+                        { zh 病假成立：船員因身體不適要請病假下船，必須經由醫生指出病症，判定身體狀況不適合在船工作 (unfit for duty on-board) 始得成立，否則一律視為個人事假。, en Crew members requesting sick leave to sign off must be diagnosed by a doctor as unfit for duty on-board at a port of call. Otherwise, it will be treated as personal leave. },
+                        { zh 交接報告：下船船員需於下船前 30 天完成交接報告。若接任者為外籍船員，請以英語書寫。, en Crew signing off must complete the handover report 30 days prior to sign-off. If the reliever is a foreign crew member, the report should be written in English. },
+                        { zh 報告形式：交接報告已改由電子郵件寄送掃描件替代紙本寄送。, en The handover report is now sent via email as a scanned copy, replacing the paper submission. }
+                    ]
+                }
+            ]
+        },
+        topic8 {
+            title { zh 8. 薪資、伙食與福利, en 8. Salary, Catering & Welfare },
+            sections [
+                {
+                    subtitle { zh 薪資與發放, en Salary and Issuance },
+                    items [
+                        { zh 發放日期：船員薪資於每月 10 日匯出至中國銀行，匯款金額為薪資扣除船領金額後的剩餘金額。, en Crew salaries are transferred to the Bank of China on the 10th of each month, being the amount remaining after deducting onboard advances. },
+                        { zh 家匯問題：若公司匯款後 7 個工作天仍未收悉，請主動與公司聯繫或請勞務公司協助。, en If the remittance is not received within 7 working days, please contact the company or the manning agent. }
+                    ]
+                },
+                {
+                    subtitle { zh 伙食費與餐勤管理, en Catering Expenses and Management },
+                    items [
+                        { zh 伙食費使用：伙食費應全數用於伙食採購及改善，不可至岸上加菜。, en Catering expenses must be fully utilized for food procurement and improvement, not for shore purchases. },
+                        { zh 帳目管理：大廚需至少公佈次日菜單，帳目每月公佈。主管不得私自挪用。, en The Chief Cook must post the next day's menu and publicize the accounts monthly. Supervisors must not misuse the funds. },
+                        { zh 節日加發：農曆春節加發三日伙食費，端午節、中秋節各加發一日伙食費。, en Additional catering funds are provided for Lunar New Year (3 days), Dragon Boat Festival, and Mid-Autumn Festival (1 day each). },
+                        { zh 節日飲料：三節期間可加發果汁、汽水、啤酒，總數皆以三箱為限（啤酒以兩箱為限）。, en Juices, sodas, and beer can be added during the three major festivals. The total amount is limited to three cases (beer is limited to two cases). }
+                    ]
+                }
+            ]
+        },
+        topic9 {
+            title { zh 9. 通訊、保密與資訊安全, en 9. Communication, Confidentiality & Information Security },
+            sections [
+                {
+                    subtitle { zh 通訊與網路使用, en Communication and Network Usage },
+                    items [
+                        { zh 駕駛台禁令：駕駛台嚴禁攜帶個人手機，當班期間嚴禁使用個人手機。, en Strictly prohibited to carry personal mobile phones on the bridge; personal use is prohibited during watchkeeping duties. },
+                        { zh 衛星網路：航行當值期間禁止使用手機及船員網路，其他時間勿影響工作並適當休息。, en Prohibited to use mobile phones or crew network during navigation watch. Use should not interfere with work or rest during other times. },
+                        { zh 請使用個人專用帳號或序號登入網路，請勿以任何形式佔用他人帳號。, en Please use personal dedicated accounts or serial numbers to log in to the network. Do not occupy others' accounts in any form. }
+                    ]
+                },
+                {
+                    subtitle { zh 保密與資訊安全, en Confidentiality and Information Security },
+                    items [
+                        { zh 保密規定：嚴格遵守公司保密規定，嚴禁洩漏任何機密或個資隱私。, en Strictly comply with the company's confidentiality policies; strictly prohibited to disclose any confidential or personal data. },
+                        { zh 詐騙防範：如收到來自親友的可疑來電或訊息，切勿僅憑訊息便採信，務必直接向其本人求證。, en If suspicious calls or messages are received from relativesfriends, do not trust them solely based on the message. Always verify directly with the person. },
+                        { zh 個人行為：任何個人行為導致公司信譽受損，公司除要求賠償外亦將永不錄用。, en Any personal behavior that damages the company's reputation will result in compensation claims and permanent non-re-employment. }
+                    ]
+                }
+            ]
+        },
+        topic10 {
+            title { zh 10. 健康管理與緊急醫療, en 10. Health Management & Emergency Medical },
+            sections [
+                {
+                    subtitle { zh 傷病處理與通報, en InjuryIllness Handling and Reporting },
+                    items [
+                        { zh 船員若發生傷病事故，應主動通報船員管理課並尋求岸上專業醫療機構診治，切勿隱瞞。, en Crew members who suffer from injury or illness should proactively report to the Crew Manning Department and seek professional medical treatment ashore; do not conceal the condition. },
+                        { zh 因傷病有就醫需求時，船長應將該員狀況與就醫申請事先以 email 通報就醫港 OP 人員及船員管理課。, en If medical attention is required, the Master should pre-notify the port agent (OP personnel) and the Crew Manning Department via email with the crew member's condition and request for medical treatment. },
+                        { zh 未事先通報者所產生之就醫相關費用不得報銷（緊急事件除外）。, en Medical expenses incurred without prior notification are not reimbursable (except for emergencies). },
+                        { zh 遭遇緊急傷病，請依海上醫療諮詢流程，填寫申請單並電話聯繫確認院方收到。, en For emergency injuryillness, follow the maritime medical consultation procedure, fill out the application form, and contact the hospital by phone to confirm receipt. }
+                    ]
+                },
+                {
+                    subtitle { zh 健康管理與心理關懷, en Health Management and Psychological Care },
+                    items [
+                        { zh 血壓控管：所有同仁上船第一個月需進行血壓量測並追蹤，以提升健康自主意識。, en All personnel are required to take and track their blood pressure during the first month onboard to enhance self-health awareness. },
+                        { zh 心理諮商：公司提供船員心理諮商服務，內容保密，請有需求的同仁放心使用。, en The company provides a confidential psychological consultation service for crew members. Those in need should feel free to use it. },
+                        { zh 醫療諮詢院所：船隊新增高雄榮民總醫院為海上醫療諮詢指定院所並提供視訊診療服務。, en Kaohsiung Veterans General Hospital has been added as the designated institution for maritime medical consultations for the fleet and will provide telemedicine services. },
+                        { zh 問卷：新進船員請於上船後一個月填寫《船員情緒關懷問卷》。, en Newly joined crew members are requested to complete the Seafarers' Emotional Care Questionnaire one month after boarding. }
+                    ]
+                }
+            ]
+        },
+        topic11 {
+            title { zh 11. 性別平等與防制性騷擾, en 11. Gender Equality & Anti-Sexual Harassment Prevention },
+            sections [
+                {
+                    subtitle { zh 性別平等與安全環境, en Gender Equality and Safe Environment },
+                    items [
+                        { zh 船員應尊重兩性工作平等，共同打造安全、尊重與多元平等的工作環境。, en Crew members should respect gender equality in work and jointly create a safe, respectful, diverse, and equal working environment. },
+                        { zh 公司持續強化船隊紀律規範與防範不法侵害行為（包括性騷擾）。, en The company continues to strengthen fleet disciplinary norms and prevention of unlawful infringement behaviors (including sexual harassment). },
+                        { zh 《海勤性騷擾防治措施、申訴及懲戒辦法》已修訂，明確定義性騷擾範圍與處理程序。, en The 'Measures for Prevention, Complaint, and Disciplinary Action for Sexual Harassment in Maritime Service' has been revised to clearly define the scope and procedure for handling sexual harassment. }
+                    ]
+                },
+                {
+                    subtitle { zh 申訴與處理管道（重要）, en Complaint and Reporting Channels (Important) },
+                    items [
+                        { zh 申訴管道：專責處理單位為海勤性騷擾申訴處理委員會。, en The dedicated handling unit is the Maritime Sexual Harassment Complaint Handling Committee. },
+                        { zh 申訴專用信箱：專案處理海勤性騷擾案，信箱為：crew-anti-harassment@wanhai.com。, en The specific email for handling maritime sexual harassment cases is crew-anti-harassment@wanhai.com. },
+                        { zh 處理程序規定：明定性騷擾事件處理程序與懲戒辦法，維護船員權益。, en The procedure for handling sexual harassment incidents and disciplinary actions is clearly stipulated to protect crew members' rights. }
+                    ]
+                }
+            ]
+        }
+    };
+    
+    
+      動態渲染首頁下方的兩個新模組 (改版重點與參考文件)
+      @param {string} lang - 當前語言
+      @returns {string} 渲染後的 HTML 內容
+     
+    function renderHomeModules(lang) {
+        var highlights = trainingData.home.revisionHighlights;
+        var references = trainingData.home.references;
+
+        var html = '';
+
+         改版重點區塊
+        html += `div class=new-module border-t-4 border-purple-500 mt-10
+            h4 class=font-bold text-xl text-purple-700 mb-4 flex items-center
+                svg xmlns=httpwww.w3.org2000svg class=h-6 w-6 mr-2 fill=none viewBox=0 0 24 24 stroke=currentColor stroke-width=2
+                    path stroke-linecap=round stroke-linejoin=round d=M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.586a2 2 0 012.828 0L19 7.172V7a2 2 0 00-2-2h-1m-4 10L14 17h4l-4 4-2-2-4-4z
+                svg
+                ${highlights.title[lang]}
+            h4
+            ul class=list-disc list-inside text-gray-700 space-y-2 pl-4
+                ${highlights.items.map(function(item) { return 'li' + item[lang] + 'li'; }).join('')}
+            ul
+        div`;
+
+         參考文件區塊
+        html += `div class=new-module border-t-4 border-green-500
+            h4 class=font-bold text-xl text-green-700 mb-4 flex items-center
+                svg xmlns=httpwww.w3.org2000svg class=h-6 w-6 mr-2 fill=none viewBox=0 0 24 24 stroke=currentColor stroke-width=2
+                    path stroke-linecap=round stroke-linejoin=round d=M12 6.253v13M3.75 6.253h14.5M3.75 12.253h14.5m-1.25 6h-12
+                svg
+                ${references.title[lang]}
+            h4
+            ul class=list-disc list-inside text-gray-700 space-y-1 pl-4
+                ${references.items.map(function(item) { return 'li' + item[lang] + 'li'; }).join('')}
+            ul
+        div`;
+
+        return html;
+    }
+
+
+    
+      切換當前語言 (zhen)
+     
+    function toggleLanguage() {
+        currentLang = currentLang === 'zh'  'en'  'zh';
+         重新渲染當前頁面以應用新語言
+        var currentPageId = document.getElementById('content-area').dataset.pageId  'home';
+        showPage(currentPageId);
+        updateUI();
+    }
+
+    
+      更新 UI 元素 (標題、按鈕文字等)
+     
+    function updateUI() {
+        var langToggleBtn = document.getElementById('lang-toggle-btn');
+        var headerTitle = document.getElementById('header-title');
+
+         僅使用中文標題
+        if (currentLang === 'zh') {
+            langToggleBtn.textContent = 'English';
+            headerTitle.textContent = 船員課上船前熟悉訓練重點宣導提醒;
+        } else {
+            langToggleBtn.textContent = '中文';
+             使用英文標題
+            headerTitle.textContent = Welcome to Seafarer Pre-Boarding Familiarization Training;
         }
 
-        // Default: Open the first tab on load
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById("tab1").style.display = "block";
-            document.getElementById("tab-btn-1").classList.add("active");
+         更新其他靜態文字
+        document.querySelectorAll('[data-lang]').forEach(function(el) {
+            el.classList.add('hidden');
         });
-    </script>
+        document.querySelectorAll('[data-lang=' + currentLang + ']').forEach(function(el) {
+            el.classList.remove('hidden');
+        });
+    }
 
-</body>
-</html>
+    
+      渲染訓練內容的通用函式
+      @param {string} sectionId - 欲渲染的區塊 ID
+     
+    function renderTraining(sectionId) {
+        var data = trainingData[sectionId];
+        
+        var html = `h2 class=text-3xl font-extrabold text-blue-800 mb-8 pb-3 border-b-4 border-blue-200${data.title[currentLang]}h2`;
+
+        data.sections.forEach(function(section) {
+            html += `div class=bg-white p-6 mdp-8 rounded-xl mb-8 shadow-md
+                        h3 class=text-2xl font-bold text-gray-700 mb-4 flex items-center
+                            svg xmlns=httpwww.w3.org2000svg class=h-6 w-6 text-blue-500 mr-2 fill=none viewBox=0 0 24 24 stroke=currentColor stroke-width=2
+                                path stroke-linecap=round stroke-linejoin=round d=M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.005 12.005 0 0012 21a12.005 12.005 0 008.618-18.016z 
+                            svg
+                            ${section.subtitle[currentLang]}
+                        h3
+                        ul class=list-none space-y-3 pl-0`;
+            
+            section.items.forEach(function(item) {
+                 使用一個輔助函數來確保 $0.00%$ 被正確渲染
+                var itemContent = item[currentLang].replace($0.00%g, 'span class=font-extrabold text-red-6000.00%span');
+
+                html += `li class=text-base text-gray-700 flex items-start
+                            span class=text-blue-500 font-bold mr-3 mt-1•span
+                            span${itemContent}span
+                         li`;
+            });
+
+            html += `ul`;
+            
+            if (section.alert) {
+                html += `div class=mt-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg font-medium${section.alert[currentLang]}div`;
+            }
+
+            html += `div`;
+        });
+
+         加入返回首頁按鈕
+        var backToHomeText = currentLang === 'zh'  '返回首頁'  'Back to Home';
+        html += `div class=mt-8 text-center
+                    button onclick=showPage('home') class=bg-gray-500 hoverbg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 shadow-md
+                        ${backToHomeText}
+                    button
+                 div`;
+
+        return html;
+    }
+
+    
+      主導航函式，用於切換頁面
+      @param {string} pageId - 欲顯示的頁面 ID
+     
+    function showPage(pageId) {
+        var contentArea = document.getElementById('content-area');
+        contentArea.innerHTML = '';  清空內容
+        contentArea.dataset.pageId = pageId;  記錄當前頁面 ID
+
+        switch (pageId) {
+            case 'home'
+                 渲染靜態內容 (主題卡片和核心紀律重申)
+                contentArea.innerHTML = trainingData.home.staticContent[currentLang];
+                
+                 渲染動態模組 (改版重點與參考文件)
+                contentArea.innerHTML += renderHomeModules(currentLang);
+                break;
+            case 'topic1'
+            case 'topic2'
+            case 'topic3'
+            case 'topic4'
+            case 'topic5'
+            case 'topic6'
+            case 'topic7'
+            case 'topic8'
+            case 'topic9'
+            case 'topic10'
+            case 'topic11'
+                contentArea.innerHTML = renderTraining(pageId);
+                break;
+            default
+                contentArea.innerHTML = `h2 class=text-2xl text-red-600${currentLang === 'zh'  '頁面不存在'  'Page Not Found'}h2`;
+        }
+        updateUI();  確保標題和按鈕語言正確
+        window.scrollTo({ top 0, behavior 'smooth' });  捲動到頂部
+    }
+
+     頁面載入時顯示首頁
+    window.onload = function() {
+        showPage('home');
+    };
+script
+
+body
+html
